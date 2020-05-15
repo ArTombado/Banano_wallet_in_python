@@ -6,6 +6,7 @@ seed = """Put your seed here"""
 private_key = generate_account_private_key(seed, 0)
 address = 'ban' + generate_account_id(seed, 0)[3:]
 representative = """Put your representative here"""
+headers = {'Content-Type': 'application/json'}
 
 def balance(account):
   #Return the balance of an account in a dictionary.
