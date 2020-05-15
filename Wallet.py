@@ -37,7 +37,7 @@ def receive(amount, link):
   #Return the actual balance from the account.
   actual_balance = int(balance(address)['balance'])
   #Create, sign and make the PoW of the transaction.
-  block = Block(block_type="state",account="xrb"+address[3:],representative="xrb"+address[3:],previous=previous, balance=actual_balance+amount,link=link)
+  block = Block(block_type="state",account="xrb"+address[3:],representative="xrb"+representative[3:],previous=previous, balance=actual_balance+amount,link=link)
   block.solve_work('fffffe0000000000')
   block.sign(private_key)
   #Create a dictionary of the block and send to the banano network.
@@ -52,7 +52,7 @@ def send(amount, link_as_account):
   #Verify if the account have enought balance to make this transaction.
   if actual_balance >= amount:
     #Create, sign and make the PoW of the transaction.
-    block = Block(block_type="state",account="xrb"+address[3:],representative="xrb"+address[3:],previous=previous,link_as_account="xrb" + link_as_account[3:],balance=actual_balance-amount)
+    block = Block(block_type="state",account="xrb"+address[3:],representative="xrb"+representative[3:],previous=previous,link_as_account="xrb" + link_as_account[3:],balance=actual_balance-amount)
     block.solve_work('fffffe0000000000')
     block.sign(private_key)
     #Create a dictionary of the block and send to the banano network.
