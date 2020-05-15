@@ -9,24 +9,33 @@ representative = """Put your representative here"""
 
 def balance(account):
   #Return the balance of an account in a dictionary.
-  return literal_eval(os.popen('curl -g -d \'{"action":"account_balance","account":"' + account +'"}\' \'https://api-beta.banano.cc:443\'').read())
+  data = '{"action":"account_balance","account":"' + account + '"}'
+  response = requests.post('https://api-beta.banano.cc:443/',data=data)
+  return response.json()
 
 def history(account, count):
   #Return the history of an account in a dictionary.
-  return literal_eval(os.popen('curl -g -d \'{"action":"account_history","account":"' + account +'", "count": "' + count + '"}\' \'https://api-beta.banano.cc:443\'').read())
+  data = '{"action":"account_history","account":"' + account + '", "count": "' + count + '"}'
+  response = requests.post('https://api-beta.banano.cc:443/',data=data)
+  return response.json()
 
 def pending(account):
   #Return the pending transactions of an account in a dictionary.
-  return literal_eval(os.popen('curl -g -d \'{"action":"pending","account":"' + account +'"}\' \'https://api-beta.banano.cc:443\'').read())
+  data = '{"action":"pending","account":"' + account + '"}'
+  response = requests.post('https://api-beta.banano.cc:443/',data=data)
+  return response.json()
 
 def block_info(hash):
   #Return the info of a block in a dictionary.
-  return literal_eval(os.popen('curl -g -d \'{"action":"block_info","json_block":"true","hash":"' + hash +'"}\' \'https://api-beta.banano.cc:443\'').read())
+  data = '{"action":"block_info","json_block":"true","hash":"' + hash + '"}'
+  response = requests.post('https://api-beta.banano.cc:443/',data=data)
+  return response.json()
 
 def process(account, previous, representative, balance, link,link_as_account, signature, work):
   #Send a transaction to the banano network.
-  return literal_eval(os.popen('''curl -g -d '{"action": "process","json_block": "true","block": "{\\"type\\": \\"state\\",\\"account\\": \\"''' + account + '''\\",\\"previous\\": \\"''' + previous + '''\\",\\"representative\\": \\"''' + representative + '''\\",\\"balance\\": \\"''' + balance + '''\\",\\"link\\": \\"''' + link + '''\\",\\"link_as_account\\": \\"''' + link_as_account +'''\\",\\"signature\\": \\"''' + signature + '''\\",\\"work\\": \\"''' + work + '''\\"}"}' -H "Content-Type: application/json" 'https://api-beta.banano.cc:443'
-''').read())
+  data = '{"action": "process","json_block": "true","block": "{\\"type\\": \\"state\\",\\"account\\": \\"''' + account + '''\\",\\"previous\\": \\"''' + previous + '''\\",\\"representative\\": \\"''' + representative + '''\\",\\"balance\\": \\"''' + balance + '''\\",\\"link\\": \\"''' + link + '''\\",\\"link_as_account\\": \\"''' + link_as_account + '''\\",\\"signature\\": \\"''' + signature + '''\\",\\"work\\": \\"''' + work + '''\\"}"}'''
+  response = requests.post('https://api-beta.banano.cc:443/', headers=headers, data=data)
+  return response.json()
 
 def receive(amount, link):
   #Return the hash of the last account transaction. If the previous hash don't exist, the previous will be 0000000000000000000000000000000000000000000000000000000000000000.
