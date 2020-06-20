@@ -1,6 +1,6 @@
 from ast import literal_eval
 from nanolib import *
-import os
+import requests
 
 seed = """Put your seed here"""
 private_key = generate_account_private_key(seed, 0)
