@@ -1,6 +1,6 @@
 from ast import literal_eval
 from nanolib import *
-import requests
+import requests, json
 
 seed = """Put your seed here"""
 private_key = generate_account_private_key(seed, 0)
@@ -32,10 +32,11 @@ def block_info(hash):
   response = requests.post('https://api-beta.banano.cc:443/',data=data)
   return response.json()
 
-def process(account, previous, representative, balance, link,link_as_account, signature, work):
+def process(account, previous, representative, balance, link, link_as_account, signature, work):
   #Send a transaction to the banano network.
-  data = '{"action": "process","json_block": "true","block": "{\\"type\\": \\"state\\",\\"account\\": \\"''' + account + '''\\",\\"previous\\": \\"''' + previous + '''\\",\\"representative\\": \\"''' + representative + '''\\",\\"balance\\": \\"''' + balance + '''\\",\\"link\\": \\"''' + link + '''\\",\\"link_as_account\\": \\"''' + link_as_account + '''\\",\\"signature\\": \\"''' + signature + '''\\",\\"work\\": \\"''' + work + '''\\"}"}'''
-  response = requests.post('https://api-beta.banano.cc:443/', headers=headers, data=data)
+  datablock = {"type": "state", "account": account, "previous": previous, "representative": representative, "balance": balance, "link": link, "link_as_account": link_as_account, "signature": signature, "work": work}
+  data = {"action": "process", "json_block": "false", "block":json.dumps(datablock)}
+  response = requests.post('https://api-beta.banano.cc:443/', headers=headers, data=json.dumps(data))
   return response.json()
 
 def receive(amount, link):
