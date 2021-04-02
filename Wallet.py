@@ -48,7 +48,7 @@ def receive_pendings():
     #Receive all pending transactions.
     for x in pendings:
       #Return the amount of the pending transaction and  send to the network.
-      bans = ban.block_info(x)['amount'] #int(block_info(x)['amount'])
+      bans = ban.block_info(x)['amount']
       receive(bans, x)
   else:
     print("There aren't pendings")
